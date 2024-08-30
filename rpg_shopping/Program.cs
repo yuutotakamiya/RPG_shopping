@@ -10,9 +10,6 @@ namespace rpg_shopping
     {
         static void Main(string[] args)
         {
-            int money = 1000; // 初期の所持金
-
-
             // 購入可能なアイテムリストを初期化
             List<Item> itemList = new List<Item>()
             {
@@ -21,9 +18,10 @@ namespace rpg_shopping
                 new Item(3, "エリクサー", 500)
             };
 
+            int money = 1000; // 初期の所持金
+
             // 購入したアイテムを記録するリスト
             Dictionary<Item, int> purchaseHistory = new Dictionary<Item, int>();
-
 
             bool continueShopping = true;// 買い物を続けるかどうかのフラグ
 
@@ -42,11 +40,13 @@ namespace rpg_shopping
                 }
                 else
                 {
-                    Console.WriteLine("アイテムなし");// 何も購入していない場合
+                    Console.WriteLine("アイテムなし");// 何も購入していない場合の表示
                 }
 
-
+                //現在の所持金額の表示
                 Console.WriteLine($"現在の所持金: {money}G");
+
+                //購入可能なアイテムの表示
                 Console.WriteLine("購入したいアイテムを選択してください:");
 
                 foreach (var item in itemList)
@@ -94,26 +94,27 @@ namespace rpg_shopping
                             }
                             else
                             {
-                                Console.WriteLine("所持金が足りません。");// 所持金が足りない場合
+                                Console.WriteLine("所持金が足りません。");// 所持金が足りない場合の表示
                             }
                         }
                         
                         else
                         {
-                            Console.WriteLine("無効なアイテムです。もう一度選んでください。");// 無効な選択肢
+                            Console.WriteLine("無効なアイテムです。もう一度選んでください。");// 無効な選択肢の場合の表示
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine("無効な入力です。数字を入力してください。");// 入力が数値でない場合
+                    Console.WriteLine("無効な入力です。数字を入力してください。");// 入力が数値でない場合の表示
                 }
 
+                //Enterキーの続行
                 Console.WriteLine("Enterキーを押して続行...");
                 Console.ReadLine();
             }
 
-            Console.Clear();
+            Console.Clear();//画面クリア
             Console.WriteLine("買い物が終了しました。所持金がなくなったか、買い物を終了しました。");
 
 
@@ -128,7 +129,7 @@ namespace rpg_shopping
             }
             else
             {
-                Console.WriteLine("アイテムは購入されませんでした。");
+                Console.WriteLine("アイテムは購入されませんでした。");//アイテムが購入されなかった場合の表示
             }
         }
     }
