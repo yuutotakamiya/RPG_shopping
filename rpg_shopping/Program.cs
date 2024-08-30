@@ -10,6 +10,9 @@ namespace rpg_shopping
     {
         static void Main(string[] args)
         {
+
+            int money = 1000; // 初期の所持金
+
             // 購入可能なアイテムリストを初期化
             List<Item> itemList = new List<Item>()
             {
@@ -17,8 +20,6 @@ namespace rpg_shopping
                 new Item(2, "エーテル", 300),
                 new Item(3, "エリクサー", 500)
             };
-
-            int money = 1000; // 初期の所持金
 
             // 購入したアイテムを記録するリスト
             Dictionary<Item, int> purchaseHistory = new Dictionary<Item, int>();
@@ -55,9 +56,9 @@ namespace rpg_shopping
                 //現在の所持金額の表示
                 Console.WriteLine($"現在の所持金: {money}G");
 
+                // 所持金が0以下になったら買い物を終了する
                 if (money <= 0)
                 {
-                    // 所持金が0以下になったら買い物を終了する
                     Console.WriteLine("ありがとな　また来てくれ！！");
                     Console.ReadLine(); // Enterキーを押してから終了
                     break;
