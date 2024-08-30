@@ -25,6 +25,13 @@ namespace rpg_shopping
 
             bool continueShopping = true;// 買い物を続けるかどうかのフラグ
 
+            Console.WriteLine("へい！いらっしゃい！！！！");
+            Console.ReadLine();
+
+            Console.Clear();// 画面をクリア
+            Console.WriteLine("なにを買っていくんだぁ？");
+            Console.ReadLine();
+
             while (continueShopping && money > 0)
             {
                 Console.Clear();// 画面をクリア
@@ -40,7 +47,7 @@ namespace rpg_shopping
                 }
                 else
                 {
-                    Console.WriteLine("アイテムなし");// 何も購入していない場合の表示
+                    Console.WriteLine("アイテムなし\n");// 何も購入していない場合の表示
                 }
 
                 //現在の所持金額の表示
