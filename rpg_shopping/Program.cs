@@ -25,14 +25,16 @@ namespace rpg_shopping
 
             bool continueShopping = true;// 買い物を続けるかどうかのフラグ
 
+            //一番最初に表示される言葉
             Console.WriteLine("へい！いらっしゃい！！！！");
             Console.ReadLine();
 
+            //二番目に表示される言葉
             Console.Clear();// 画面をクリア
             Console.WriteLine("なにを買っていくんだぁ？");
             Console.ReadLine();
 
-            while (continueShopping && money > 0)
+            while (continueShopping)
             {
                 Console.Clear();// 画面をクリア
 
@@ -53,6 +55,14 @@ namespace rpg_shopping
                 //現在の所持金額の表示
                 Console.WriteLine($"現在の所持金: {money}G");
 
+                if (money <= 0)
+                {
+                    // 所持金が0以下になったら買い物を終了する
+                    Console.WriteLine("ありがとな　また来てくれ！！");
+                    Console.ReadLine(); // Enterキーを押してから終了
+                    break;
+                }
+
                 //購入可能なアイテムの表示
                 Console.WriteLine("購入したいアイテムを選択してください:");
 
@@ -67,8 +77,24 @@ namespace rpg_shopping
                 {
                     if (itemId == 0)//「0」が選ばれたら買い物を終了
                     {
-                        continueShopping = false;
-                        Console.WriteLine("買い物を終了します。");
+                        Console.Clear();// 画面をクリア
+                        Console.WriteLine("もう買わないのか？");
+
+                        Console.WriteLine("続行しますか？終了しますか？");
+                        Console.WriteLine("1. 続行する");
+                        Console.WriteLine("2. 終了する");
+
+                        if (int.TryParse(Console.ReadLine(), out int choice))
+                        {
+
+                            if (choice == 2) // 終了を選んだ場合
+                            {
+                                Console.Clear();// 画面をクリア
+                                continueShopping = false;
+                                Console.WriteLine("ありがとな！！また来てくれ");
+                                Console.ReadLine(); // Enterキーを押してから終了
+                            }
+                        }
                     }
                     else
                     {
@@ -101,7 +127,7 @@ namespace rpg_shopping
                             }
                             else
                             {
-                                Console.WriteLine("所持金が足りません。");// 所持金が足りない場合の表示
+                                Console.WriteLine("所持金が足りないぞ");// 所持金が足りない場合の表示
                             }
                         }
                         
@@ -122,7 +148,7 @@ namespace rpg_shopping
             }
 
             Console.Clear();//画面クリア
-            Console.WriteLine("買い物が終了しました。所持金がなくなったか、買い物を終了しました。");
+            Console.WriteLine("買い物が終了しました");
 
 
             // 購入履歴の表示
