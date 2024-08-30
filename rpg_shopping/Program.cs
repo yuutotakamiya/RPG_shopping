@@ -11,74 +11,126 @@ namespace rpg_shopping
         static void Main(string[] args)
         {
             int money = 1000; // 初期の所持金
-            bool continueShopping = true;
+
+
+            // 購入可能なアイテムリストを初期化
+            List<Item> itemList = new List<Item>()
+            {
+                new Item(1, "ポーション", 200),
+                new Item(2, "エーテル", 300),
+                new Item(3, "エリクサー", 500)
+            };
+
+            // 購入したアイテムを記録するリスト
+            Dictionary<Item, int> purchaseHistory = new Dictionary<Item, int>();
+
+
+            bool continueShopping = true;// 買い物を続けるかどうかのフラグ
 
             while (continueShopping && money > 0)
             {
-                Console.WriteLine($"現在の所持金: {money}G");
-                Console.WriteLine("購入したいアイテムを選択してください:");
-                Console.WriteLine("1. ポーション (200G)");
-                Console.WriteLine("2. エーテル (300G)");
-                Console.WriteLine("3. エリクサー (500G)");
-                Console.WriteLine("0. 0で買い物をやめる");
+                Console.Clear();// 画面をクリア
 
-
-                Console.WriteLine("0. 0で買い物をやめる");
-
-                string choice = Console.ReadLine();
-
-                switch (choice)
+                // 所持アイテムの表示
+                Console.WriteLine("現在の所持アイテム:");
+                if (purchaseHistory.Count > 0)
                 {
-                    case "1":
-                        if (money >= 200)
-                        {
-                            money -= 200;
-                            Console.WriteLine("ポーションを購入しました。");
-                        }
-                        else
-                        {
-                            Console.WriteLine("所持金が足りません。");
-                        }
-                        break;
-
-                    case "2":
-                        if (money >= 300)
-                        {
-                            money -= 300;
-                            Console.WriteLine("エーテルを購入しました。");
-                        }
-                        else
-                        {
-                            Console.WriteLine("所持金が足りません。");
-                        }
-                        break;
-
-                    case "3":
-                        if (money >= 500)
-                        {
-                            money -= 500;
-                            Console.WriteLine("エリクサーを購入しました。");
-                        }
-                        else
-                        {
-                            Console.WriteLine("所持金が足りません。");
-                        }
-                        break;
-
-                    case "4":
-                        continueShopping = false;
-                        Console.WriteLine("0で買い物を終了します。");
-                        break;
-
-                    default:
-                        Console.WriteLine("無効な選択です。もう一度選んでください。");
-                        break;
+                    foreach (var entry in purchaseHistory)
+                    {
+                        Console.WriteLine($"{entry.Key.Name}: {entry.Value}個");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("アイテムなし");// 何も購入していない場合
                 }
 
-                Console.WriteLine();
+
+                Console.WriteLine($"現在の所持金: {money}G");
+                Console.WriteLine("購入したいアイテムを選択してください:");
+
+                foreach (var item in itemList)
+                {
+                    Console.WriteLine($"{item.Id}. {item.Name} ({item.Price}G)");
+                }
+
+                Console.WriteLine("4. 0で買い物をやめる");// 買い物を終了するオプション
+
+                if (int.TryParse(Console.ReadLine(), out int itemId))
+                {
+                    if (itemId == 0)//「0」が選ばれたら買い物を終了
+                    {
+                        continueShopping = false;
+                        Console.WriteLine("買い物を終了します。");
+                    }
+                    else
+                    {
+                        var selectedItem = itemList.Find(i => i.Id == itemId);
+
+                        if (selectedItem != null) // 選択されたアイテムが有効なら
+                        {
+                            if (money >= selectedItem.Price)// 所持金が足りている場合
+                            {
+                                money -= selectedItem.Price;
+                                Console.WriteLine($"{selectedItem.Name}を購入しました。");
+
+                                // 購入履歴に追加または更新
+                                if (purchaseHistory.ContainsKey(selectedItem))
+                                {
+                                    purchaseHistory[selectedItem]++; // 既に購入したアイテムなら個数を増やす
+                                }
+                                else
+                                {
+                                    purchaseHistory[selectedItem] = 1;// 初めて購入するアイテムを追加
+                                }
+
+                                // 所持アイテムの表示
+                                Console.WriteLine("現在の所持アイテム:");
+                                foreach (var entry in purchaseHistory)
+                                {
+                                    Console.WriteLine($"{entry.Key.Name}: {entry.Value}個");
+                                }
+                                
+                            }
+                            else
+                            {
+                                Console.WriteLine("所持金が足りません。");// 所持金が足りない場合
+                            }
+                        }
+                        
+                        else
+                        {
+                            Console.WriteLine("無効なアイテムです。もう一度選んでください。");// 無効な選択肢
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("無効な入力です。数字を入力してください。");// 入力が数値でない場合
+                }
+
+                Console.WriteLine("Enterキーを押して続行...");
+                Console.ReadLine();
             }
 
-            Console.WriteLine("所持金がなくなりました。買い物を終了します。");
+            Console.Clear();
+            Console.WriteLine("買い物が終了しました。所持金がなくなったか、買い物を終了しました。");
+
+
+            // 購入履歴の表示
+            if (purchaseHistory.Count > 0)
+            {
+                Console.WriteLine("購入したアイテム:");
+                foreach (var entry in purchaseHistory)
+                {
+                    Console.WriteLine($"{entry.Key.Name}: {entry.Value}個");
+                }
+            }
+            else
+            {
+                Console.WriteLine("アイテムは購入されませんでした。");
+            }
         }
     }
+    
 }
